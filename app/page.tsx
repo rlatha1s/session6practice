@@ -62,6 +62,13 @@ export default function Home() {
 
     const totalVotes = menus.reduce((sum, menu) => sum + menu.votes, 0);
 
+    const topMenu =
+        menus.length === 0
+            ? null
+            : menus.reduce((top, menu) =>
+                  menu.votes > top.votes ? menu : top,
+              );
+
     return (
         <main className="min-h-screen bg-orange-50 px-6 py-16 text-gray-900">
             <div className="mx-auto max-w-4xl">
@@ -80,6 +87,15 @@ export default function Home() {
                         먹고 싶은 메뉴에 한 표를 던져주세요!
                     </p>
                 </header>
+
+                {topMenu && totalVotes > 0 && (
+                    <div className="mb-8 text-center">
+                        <span className="inline-block rounded-full bg-orange-200 px-5 py-2 font-bold text-orange-800">
+                            👑 현재 1등: {menuEmoji[topMenu.name]}{" "}
+                            {topMenu.name}
+                        </span>
+                    </div>
+                )}
 
                 {loading ? (
                     <p className="text-center text-gray-500">
